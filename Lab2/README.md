@@ -8,7 +8,7 @@ For this lab, you need a running deployment of the `guestbook` application
 from the previous lab. If you deleted it, recreate it using:
 
 ```console
-$ kubectl run guestbook --image=ibmcom/guestbook:v1
+$ oc create deployment guestbook --image=ibmcom/guestbook:v1
 ```
 
 ## 1. Scale apps with replicas
@@ -17,12 +17,12 @@ A *replica* is a copy of a pod that contains a running service. By having
 multiple replicas of a pod, you can ensure your deployment has the available
 resources to handle increasing load on your application.
 
-1. `kubectl` provides a `scale` subcommand to change the size of an
+1. `oc` provides a `scale` subcommand to change the size of an
    existing deployment. Let's increase our capacity from a single running instance of
    `guestbook` up to 10 instances:
 
    ``` console
-   $ kubectl scale --replicas=10 deployment guestbook
+   $ oc scale --replicas=10 deployment guestbook
    deployment "guestbook" scaled
    ```
 
@@ -31,13 +31,13 @@ resources to handle increasing load on your application.
    the first.
 
 1. To see your changes being rolled out, you can run:
-   `kubectl rollout status deployment guestbook`.
+   `oc rollout status deployment guestbook`.
 
    The rollout might occur so quickly that the following messages might
    _not_ display:
 
    ```console
-   $ kubectl rollout status deployment guestbook
+   $ oc rollout status deployment guestbook
    Waiting for rollout to finish: 1 of 10 updated replicas are available...
    Waiting for rollout to finish: 2 of 10 updated replicas are available...
    Waiting for rollout to finish: 3 of 10 updated replicas are available...
@@ -51,12 +51,12 @@ resources to handle increasing load on your application.
    ```
 
 1. Once the rollout has finished, ensure your pods are running by using:
-   `kubectl get pods`.
+   `oc get pods`.
 
    You should see output listing 10 replicas of your deployment:
 
    ```console
-   $ kubectl get pods
+   $ oc get pods
    NAME                        READY     STATUS    RESTARTS   AGE
    guestbook-562211614-1tqm7   1/1       Running   0          1d
    guestbook-562211614-1zqn4   1/1       Running   0          2m
@@ -87,12 +87,12 @@ we'll use the image with the `v2` tag.
 
 To update and roll back:
 
-1. Using `kubectl`, you can now update your deployment to use the
-   `v2` image. `kubectl` allows you to change details about existing
+1. Using `oc`, you can now update your deployment to use the
+   `v2` image. `oc` allows you to change details about existing
    resources with the `set` subcommand. We can use it to change the
    image being used.
 
-    ```$ kubectl set image deployment/guestbook guestbook=ibmcom/guestbook:v2```
+    ```$ oc set image deployment/guestbook guestbook=ibmcom/guestbook:v2```
 
    Note that a pod could have multiple containers, each with its own name.
    Each image can be changed individually or all at once by referring to the name.
@@ -100,12 +100,12 @@ To update and roll back:
    Multiple containers can be updated at the same time.
    ([More information](https://kubernetes.io/docs/user-guide/kubectl/kubectl_set_image/).)
 
-1. Run `kubectl rollout status deployment/guestbook` to check the status of
+1. Run `oc rollout status deployment/guestbook` to check the status of
    the rollout. The rollout might occur so quickly that the following messages
    might _not_ display:
 
    ```console
-   $ kubectl rollout status deployment/guestbook
+   $ oc rollout status deployment/guestbook
    Waiting for rollout to finish: 2 out of 10 new replicas have been updated...
    Waiting for rollout to finish: 3 out of 10 new replicas have been updated...
    Waiting for rollout to finish: 3 out of 10 new replicas have been updated...
@@ -146,7 +146,7 @@ To update and roll back:
 
    Remember, to get the "nodeport" and "public-ip" use:
 
-   `$ kubectl describe service guestbook`
+   `$ oc describe service guestbook`
    and
    `$ ibmcloud ks workers $USERNAME-cluster`
 
@@ -156,11 +156,11 @@ To update and roll back:
 1. If you want to undo your latest rollout, use:
 
    ```console
-   $ kubectl rollout undo deployment guestbook
+   $ oc rollout undo deployment guestbook
    deployment "guestbook"
    ```
 
-   You can then use `kubectl rollout status deployment/guestbook` to see
+   You can then use `oc rollout status deployment/guestbook` to see
    the status.
 
 1. When doing a rollout, you see references to *old* replicas and *new* replicas.
@@ -171,7 +171,7 @@ To update and roll back:
    We can see the guestbook ReplicaSets with:
 
    ```console
-   $ kubectl get replicasets -l run=guestbook
+   $ oc get replicasets -l run=guestbook
    NAME                   DESIRED   CURRENT   READY     AGE
    guestbook-5f5548d4f    10        10        10        21m
    guestbook-768cc55c78   0         0         0         3h
@@ -180,9 +180,9 @@ To update and roll back:
 Before we continue, let's delete the application so we can learn about
 a different way to achieve the same results:
 
- To remove the deployment, use `kubectl delete deployment guestbook`.
+ To remove the deployment, use `oc delete deployment guestbook`.
 
- To remove the service, use `kubectl delete service guestbook`.
+ To remove the service, use `oc delete service guestbook`.
 
 Congratulations! You deployed the second version of the app. Lab 2
 is now complete. Continue to the [next lab of this course](../Lab3/README.md).

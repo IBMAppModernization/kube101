@@ -1,5 +1,9 @@
 # Lab 4: Use an ingress to expose the guestbook application
 
+## NOTE - THIS LAB IS NOT YET UPDATED FOR OpenShift.
+
+If you are doing kube101 on OpenShift and have completed Lab3 - that's all for now. We'll be updating this soon to use OpenShift `routes`
+
 In this lab you'll deploy the same guestbook application we deployed in the previous labs, however, this time instead of accessing using a NodePort, you will access the application like a traditional web application by https and http URLs. As with lab 3, you will use resource files to speed the deployments along.
 
 Before we work with the application we need to clone a github repo:
