@@ -141,7 +141,7 @@ To update and roll back:
    deployment "guestbook" successfully rolled out
    ```
 
-1. Test the application as before, by accessing `<public-IP>:<nodeport>` 
+1. Test the application as before, by accessing `<public-IP>:<nodeport>` or use the http route
    in the browser to confirm your new code is active.
 
     ```console

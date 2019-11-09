@@ -41,7 +41,7 @@ that this object should belong.
 
 Consider the following deployment configuration for guestbook application
 
-`guestbook-deployment.yaml`
+### guestbook-deployment.yaml
 
 ```yaml
 apiVersion: apps/v1
@@ -127,7 +127,7 @@ of the Deployment and apply just those changes.
 We can now define a Service object to expose the deployment to external
 clients.
 
-`guestbook-service.yaml`
+### guestbook-service.yaml
 
 ```yaml
 apiVersion: v1
@@ -158,14 +158,15 @@ Deployment container spec.
   $ oc create -f guestbook-service.yaml
   ```
 
-- Test guestbook app using a browser of your choice using the url
-  `<your-cluster-ip>:<node-port>`
+- Expose the service as a route and access
 
-  Remember, to get the `nodeport` and `public-ip` use:
+   ```text
+   oc expose service guestbook
+   GUESTBOOK=$(oc get route guestbook -o jsonpath='{ .spec.host }')
+   echo http://$GUESTBOOK
+   ```
 
-  `$ oc describe service guestbook`
-  and
-  `$ ibmcloud cs workers <name-of-cluster>`
+  Open the URL in a new tab.
 
 ## 2. Connect to a back-end service.
 
@@ -181,7 +182,7 @@ To solve this we need to have all instances of our app share the same data
 store - in this case we're going to use a redis database that we deploy to our
 cluster. This instance of redis will be defined in a similar manner to the guestbook.
 
-`redis-master-deployment.yaml`
+### redis-master-deployment.yaml
 
 ```yaml
 apiVersion: apps/v1
@@ -260,7 +261,7 @@ The image running in the container is 'redis:5.0.5' and exposes the standard red
 Now we need to expose the `redis-master` Deployment as a Service so that the
 guestbook application can connect to it through DNS lookup. 
 
-`redis-master-service.yaml`
+### redis-master-service.yaml
 
 ```yaml
 apiVersion: v1
@@ -318,7 +319,7 @@ instances to read. Redis slave deployments is configured to run two replicas.
 
 ![w_to_master-r_to_slave](../images/Master-Slave.png)
 
-`redis-slave-deployment.yaml`
+### redis-slave-deployment.yaml
 
 ```yaml
 apiVersion: apps/v1
@@ -386,7 +387,7 @@ Deploy redis slave service so we can access it by DNS name. Once redeployed,
 the application will send "read" operations to the `redis-slave` pods while
 "write" operations will go to the `redis-master` pods.
 
-`redis-slave-service.yaml`
+### redis-slave-service.yaml
 
 ```yaml
 apiVersion: v1
