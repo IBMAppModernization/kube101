@@ -144,14 +144,13 @@ To update and roll back:
 1. Test the application as before, by accessing `<public-IP>:<nodeport>` 
    in the browser to confirm your new code is active.
 
-   Remember, to get the "nodeport" and "public-ip" use:
+    ```console
+    $ GUESTBOOK=$(oc get route guestbook -o jsonpath='{ .spec.host }')
+    $ echo http://$GUESTBOOK
+    http://guestbook-user001.timro-kata-f0093114134cf555e1a213f3756140db-0001.us-east.containers.appdomain.cloud
+    ```
 
-   `$ oc describe service guestbook`
-   and
-   `$ ibmcloud ks workers $USERNAME-cluster`
-
-   To verify that you're running "v2" of guestbook, look at the title of the page,
-   it should now be `Guestbook - v2`. If you are using a browser, make sure you force refresh (invalidating your cache).
+   To that you're running "v2" of guestbook, look at the title of the page, it should now be `Guestbook - v2`. If you are using a browser, make sure you force refresh by holding down **Shift** (invalidating your cache).
 
 1. If you want to undo your latest rollout, use:
 
@@ -171,7 +170,7 @@ To update and roll back:
    We can see the guestbook ReplicaSets with:
 
    ```console
-   $ oc get replicasets -l run=guestbook
+   $ oc get replicasets -l app=guestbook
    NAME                   DESIRED   CURRENT   READY     AGE
    guestbook-5f5548d4f    10        10        10        21m
    guestbook-768cc55c78   0         0         0         3h
@@ -181,6 +180,8 @@ Before we continue, let's delete the application so we can learn about
 a different way to achieve the same results:
 
  To remove the deployment, use `oc delete deployment guestbook`.
+
+ To remove the route, use `oc delete route guestbook`.
 
  To remove the service, use `oc delete service guestbook`.
 

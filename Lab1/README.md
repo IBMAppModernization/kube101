@@ -67,7 +67,7 @@ In this part of the lab we will deploy an application called `guestbook` that ha
    kube-bmsoq81w0o49g5j6mvpg-timrokata-default-0000025d   169.62.47.221   10.191.61.69   b3c.4x16.encrypted   normal   Ready    wdc07   3.11.153_1529_openshift
    ```
 
-   In this example one of the workers `<public-IP>` is `169.62.40.202`. So to access this directly over tcp you could open `http://169.62.40.202:30732/ in your browser.
+   In this example one of the workers `<public-IP>` is `169.62.40.202`. So to access this directly over tcp you could open `http://169.62.40.202:30732/` in your browser.
 
 1. OpenShift also provides a simple way to expose a kubernetes service through a named http route, which defaults to be the service name plus the project name, appended with the base domain for the cluster. Create a route like this using:
 
