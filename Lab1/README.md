@@ -46,11 +46,11 @@ In this part of the lab we will deploy an application called `guestbook` that ha
    ```console
    $ oc get service guestbook
    NAME        TYPE       CLUSTER-IP     EXTERNAL-IP   PORT(S)          AGE
-   guestbook   NodePort   10.10.10.253   <none>        3000:31208/TCP   1m
+   guestbook   NodePort   172.21.41.226   <none>        3000:30732/TCP   13s
    ```
 
-   We can see that our `<nodeport>` is `31208`. We can see in the output the port mapping from 3000 inside 
-   the pod exposed to the cluster on port 31208. This port in the 31000 range is automatically chosen, 
+   We can see that our `<nodeport>` is `30732`. We can see in the output the port mapping from 3000 inside 
+   the pod exposed to the cluster on port 30732. This port in the 31000 range is automatically chosen, 
    and could be different for you.
 
 1. `guestbook` is now running on your cluster, and exposed to the internet. We need to find out where it is accessible.
@@ -58,16 +58,33 @@ In this part of the lab we will deploy an application called `guestbook` that ha
    Get the workers for your cluster and note one (any one) of the public IPs listed on the `<public-IP>` line.
 
    ```console
-   $ ibmcloud ks workers $USERNAME-cluster
+   $ ibmcloud ks workers $MYCLUSTER
+   Kubernetes version 1.16 has removed deprecated APIs. For more information, see <http://ibm.biz/k8s-1-16-apis>
+
    OK
-   ID                                                 Public IP        Private IP     Machine Type   State    Status   Zone    Version  
-   kube-hou02-pa1e3ee39f549640aebea69a444f51fe55-w1   173.193.99.136   10.76.194.30   free           normal   Ready    hou02   1.5.6_1500*
+   ID                                                     Public IP       Private IP     Flavor               State    Status   Zone    Version
+   kube-bmsoq81w0o49g5j6mvpg-timrokata-default-00000136   169.62.40.202   10.191.61.67   b3c.4x16.encrypted   normal   Ready    wdc07   3.11.153_1529_openshift
+   kube-bmsoq81w0o49g5j6mvpg-timrokata-default-0000025d   169.62.47.221   10.191.61.69   b3c.4x16.encrypted   normal   Ready    wdc07   3.11.153_1529_openshift
    ```
 
-   We can see that our `<public-IP>` is `173.193.99.136`.
+   In this example one of the workers `<public-IP>` is `169.62.40.202`. So to access this directly over tcp you could open `http://169.62.40.202:30732/ in your browser.
 
-1. Now that you have both the address and the port, you can now access the application in the web browser
-   at `<public-IP>:<nodeport>`. In the example case this is `173.193.99.136:31208`.
+1. OpenShift also provides a simple way to expose a kubernetes service through a named http route, which defaults to be the service name plus the project name, appended with the base domain for the cluster. Create a route like this using:
+
+    ```console
+    $ oc expose service guestbook
+    route.route.openshift.io/guestbook exposed
+    ```
+
+1. Get the hostname for the exposed application and create a URL:
+
+    ```console
+    $ GUESTBOOK=$(oc get route guestbook -o jsonpath='{ .spec.host }')
+    $ echo http://$GUESTBOOK
+    http://guestbook-user001.timro-kata-f0093114134cf555e1a213f3756140db-0001.us-east.containers.appdomain.cloud
+    ```
+
+    Open the URL in a new browser tab to see the application.
 
 Congratulations, you've now deployed an application to Kubernetes!
 
