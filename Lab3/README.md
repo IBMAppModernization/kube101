@@ -138,8 +138,9 @@ metadata:
     app: guestbook
 spec:
   ports:
-  - port: 3000
-    targetPort: http-server
+    - port: 80
+    targetPort: 3000
+    name: http
   selector:
     app: guestbook
   type: NodePort
@@ -161,9 +162,9 @@ Deployment container spec.
 - Expose the service as a route and access
 
    ```text
-   oc expose service guestbook
-   GUESTBOOK=$(oc get route guestbook -o jsonpath='{ .spec.host }')
-   echo http://$GUESTBOOK
+   $ oc expose service guestbook
+   $ GUESTBOOK=$(oc get route guestbook -o jsonpath='{ .spec.host }')
+   $ echo http://$GUESTBOOK
    ```
 
   Open the URL in a new tab.
@@ -237,7 +238,7 @@ The image running in the container is 'redis:5.0.5' and exposes the standard red
     redis-master-q9zg7   1/1       Running   0          2d
     ```
 
-- Let us test the redis standalone:
+- Let us test the redis standalone - update command with the pod name from your output:
 
     ```text
     $ oc exec -it redis-master-q9zg7 redis-cli
@@ -296,8 +297,7 @@ port 6379 on the pods selected by the selectors "app=redis" and "role=master".
     $ oc create -f guestbook-deployment.yaml
     ```
 
-- Test guestbook app using a browser of your choice using the url:
-  `<your-cluster-ip>:<node-port>`
+- Test guestbook app using a browser of your choice using the url: `http://$GUESTBOOK` or `<your-cluster-ip>:<node-port>`
   
 You can see now that if you open up multiple browsers and refresh the page
 to access the different copies of guestbook that they all have a consistent state.
@@ -419,15 +419,20 @@ spec:
     $ oc create -f guestbook-deployment.yaml
     ```
 
-- Test guestbook app using a browser of your choice using the url `<your-cluster-ip>:<node-port>`.
+- Test guestbook app using a browser of your choice using the url: `http://$GUESTBOOK` or `<your-cluster-ip>:<node-port>`
 
 That's the end of the lab. Now let's clean-up our environment:
 
 ```console
-$ oc delete -f guestbook-deployment.yaml
-$ oc delete -f guestbook-service.yaml
-$ oc delete -f redis-slave-service.yaml
-$ oc delete -f redis-slave-deployment.yaml 
-$ oc delete -f redis-master-service.yaml 
-$ oc delete -f redis-master-deployment.yaml
+$ oc delete -f .
+deployment.apps "guestbook-v1" deleted
+service "guestbook" deleted
+deployment.apps "redis-master" deleted
+service "redis-master" deleted
+deployment.apps "redis-slave" deleted
+service "redis-slave" deleted
+$ oc delete route guestbook
+route.route.openshift.io "guestbook" deleted
 ```
+
+Optionally, you can also remove the project with `oc delete project <your-project>`.
