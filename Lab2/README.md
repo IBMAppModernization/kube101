@@ -71,10 +71,10 @@ resources to handle increasing load on your application.
    ```
 
 **Tip:** Another way to improve availability is to
-[add clusters and regions](https://console.bluemix.net/docs/containers/cs_planning.html#cs_planning_cluster_config)
+[add clusters and regions](https://cloud.ibm.com/docs/containers?topic=containers-ha_clusters#ha_clusters)
 to your deployment, as shown in the following diagram:
 
-![HA with more clusters and regions](../images/cluster_ha_roadmap.png)
+![HA with more clusters and regions](../images/cs_cluster_ha_roadmap_multizone_public.png)
 
 ## 2. Update and roll back apps
 
@@ -141,7 +141,7 @@ To update and roll back:
    deployment "guestbook" successfully rolled out
    ```
 
-1. Test the application as before, by accessing `<public-IP>:<nodeport>` 
+1. Test the application as before, by accessing `<public-IP>:<nodeport>`
    in the browser to confirm your new code is active.
 
    Remember, to get the "nodeport" and "public-ip" use:
