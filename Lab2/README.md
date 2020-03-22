@@ -141,7 +141,7 @@ To update and roll back:
    deployment "guestbook" successfully rolled out
    ```
 
-1. Test the application as before, by accessing `<public-IP>:<nodeport>` 
+1. Test the application as before, by accessing `<public-IP>:<nodeport>`
    in the browser to confirm your new code is active.
 
    Remember, to get the "nodeport" and "public-ip" use:
@@ -171,7 +171,7 @@ To update and roll back:
    We can see the guestbook ReplicaSets with:
 
    ```console
-   $ kubectl get replicasets -l run=guestbook
+   $ kubectl get replicasets -l app=guestbook
    NAME                   DESIRED   CURRENT   READY     AGE
    guestbook-5f5548d4f    10        10        10        21m
    guestbook-768cc55c78   0         0         0         3h
