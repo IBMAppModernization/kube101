@@ -71,10 +71,10 @@ resources to handle increasing load on your application.
    ```
 
 **Tip:** Another way to improve availability is to
-[add clusters and regions](https://console.bluemix.net/docs/containers/cs_planning.html#cs_planning_cluster_config)
+[add clusters and regions](https://cloud.ibm.com/docs/containers?topic=containers-ha_clusters#ha_clusters)
 to your deployment, as shown in the following diagram:
 
-![HA with more clusters and regions](../images/cluster_ha_roadmap.png)
+![HA with more clusters and regions](../images/cs_cluster_ha_roadmap_multizone_public.png)
 
 ## 2. Update and roll back apps
 
@@ -98,7 +98,7 @@ To update and roll back:
    Each image can be changed individually or all at once by referring to the name.
    In the case of our `guestbook` Deployment, the container name is also `guestbook`.
    Multiple containers can be updated at the same time.
-   ([More information](https://kubernetes.io/docs/user-guide/kubectl/kubectl_set_image/).)
+   ([More information](https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-image-em-).)
 
 1. Run `kubectl rollout status deployment/guestbook` to check the status of
    the rollout. The rollout might occur so quickly that the following messages
