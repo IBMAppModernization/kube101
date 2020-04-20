@@ -8,7 +8,7 @@ For this lab, you need a running deployment of the `guestbook` application
 from the previous lab. If you deleted it, recreate it using:
 
 ```console
-$ kubectl run guestbook --image=ibmcom/guestbook:v1
+kubectl create deployment guestbook --image=ibmcom/guestbook:v1
 ```
 
 ## 1. Scale apps with replicas
@@ -141,7 +141,7 @@ To update and roll back:
    deployment "guestbook" successfully rolled out
    ```
 
-1. Test the application as before, by accessing `<public-IP>:<nodeport>` 
+1. Test the application as before, by accessing `<public-IP>:<nodeport>`
    in the browser to confirm your new code is active.
 
    Remember, to get the "nodeport" and "public-ip" use:
@@ -171,7 +171,7 @@ To update and roll back:
    We can see the guestbook ReplicaSets with:
 
    ```console
-   $ kubectl get replicasets -l run=guestbook
+   $ kubectl get replicasets -l app=guestbook
    NAME                   DESIRED   CURRENT   READY     AGE
    guestbook-5f5548d4f    10        10        10        21m
    guestbook-768cc55c78   0         0         0         3h

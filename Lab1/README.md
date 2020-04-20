@@ -11,7 +11,7 @@ that has already been built and uploaded to DockerHub under the name
 
 1. Start by running `guestbook`:
 
-   ```$ kubectl run guestbook --image=ibmcom/guestbook:v1```
+   ```$ kubectl create deployment guestbook --image=ibmcom/guestbook:v1```
 
    This action will take a bit of time. To check the status of the running application,
    you can use `$ kubectl get pods`.
@@ -52,8 +52,8 @@ that has already been built and uploaded to DockerHub under the name
    guestbook   NodePort   10.10.10.253   <none>        3000:31208/TCP   1m
    ```
 
-   We can see that our `<nodeport>` is `31208`. We can see in the output the port mapping from 3000 inside 
-   the pod exposed to the cluster on port 31208. This port in the 31000 range is automatically chosen, 
+   We can see that our `<nodeport>` is `31208`. We can see in the output the port mapping from 3000 inside
+   the pod exposed to the cluster on port 31208. This port in the 31000 range is automatically chosen,
    and could be different for you.
 
 1. `guestbook` is now running on your cluster, and exposed to the internet. We need to find out where it is accessible.
@@ -76,4 +76,3 @@ Congratulations, you've now deployed an application to Kubernetes!
 
 When you're all done, continue to the
 [next lab of this course](../Lab2/README.md).
-
